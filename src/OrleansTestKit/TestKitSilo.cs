@@ -60,6 +60,9 @@ namespace Orleans.TestKit
         public T CreateGrain<T>(Guid id) where T : Grain, IGrainWithGuidKey
             => CreateGrain<T>(new TestGrainIdentity(id));
 
+        public T CreateGrain<T>(Guid id, string extention) where T : Grain, IGrainWithGuidCompoundKey
+            => CreateGrain<T>(new TestGrainIdentity(id, extention));
+
         public T CreateGrain<T>(string id) where T : Grain, IGrainWithStringKey
             => CreateGrain<T>(new TestGrainIdentity(id));
 
@@ -165,6 +168,9 @@ namespace Orleans.TestKit
 
         public Mock<T> AddProbe<T>(Guid id) where T : class, IGrain
             => _grainFactory.AddProbe<T>(new TestGrainIdentity(id));
+
+        public Mock<T> AddProbe<T>(Guid id, string extension) where T : class, IGrain
+            => _grainFactory.AddProbe<T>(new TestGrainIdentity(id, extension));
 
         public Mock<T> AddProbe<T>(string id) where T : class, IGrain
             => _grainFactory.AddProbe<T>(new TestGrainIdentity(id));

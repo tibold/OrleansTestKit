@@ -11,7 +11,8 @@ namespace Orleans.TestKit
         {
             String,
             Guid,
-            Long
+            Long,
+            GuidCompound
         }
 
         private readonly KeyType _keyType;
@@ -21,6 +22,8 @@ namespace Orleans.TestKit
         public long PrimaryKeyLong { get; }
 
         public string PrimaryKeyString { get; }
+
+        public string KeyExtension { get; }
 
         public string IdentityString
         {
@@ -32,6 +35,8 @@ namespace Orleans.TestKit
                         return PrimaryKeyString;
                     case KeyType.Guid:
                         return PrimaryKey.ToString();
+                    case KeyType.GuidCompound:
+                        return $"{PrimaryKey.ToString()}@{KeyExtension}";
                     case KeyType.Long:
                         return PrimaryKeyLong.ToString();
                     default:
@@ -48,6 +53,13 @@ namespace Orleans.TestKit
         {
             PrimaryKey = id;
             _keyType = KeyType.Guid;
+        }
+
+        public TestGrainIdentity(Guid id, string extension)
+        {
+            PrimaryKey = id;
+            KeyExtension = extension;
+            _keyType = KeyType.GuidCompound;
         }
 
         public TestGrainIdentity(long id)
