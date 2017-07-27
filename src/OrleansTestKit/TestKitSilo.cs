@@ -182,7 +182,7 @@ namespace Orleans.TestKit
         public TestStorageStats Storage<T>(T grain) where T : Grain
             => _storageManager.GetStorageStats(grain);
 
-        public TState State<TState>(Grain grain) where TState : class =>
+        public TState State<TState>(Grain<TState> grain) where TState : class, new() =>
             _grainStateManager.GetState<TState>(grain);
 
         #endregion
