@@ -81,7 +81,14 @@ namespace Orleans.TestKit
 
         public Guid GetPrimaryKey(out string keyExt)
         {
-            throw new NotImplementedException();
+            if(_keyType != KeyType.GuidCompound)
+            {
+                // FIXME: No idea what errors should we throw here.
+                throw new InvalidOperationException();
+            }
+
+            keyExt = KeyExtension;
+            return PrimaryKey;
         }
 
         public uint GetUniformHashCode() 
