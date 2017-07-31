@@ -84,22 +84,22 @@ namespace Orleans.TestKit.Loggers
 
         public override void TrackTrace(string message)
         {
-            throw new NotImplementedException();
+            TrackTrace(message, Severity.Info);
         }
 
         public override void TrackTrace(string message, Severity severityLevel)
         {
-            throw new NotImplementedException();
+            _logManager.WriteLog($"{DateTime.UtcNow} {severityLevel} {Name} {message}");
         }
 
         public override void TrackTrace(string message, Severity severityLevel, IDictionary<string, string> properties)
         {
-            throw new NotImplementedException();
+            TrackTrace(message, severityLevel);
         }
 
         public override void TrackTrace(string message, IDictionary<string, string> properties)
         {
-            throw new NotImplementedException();
+            TrackTrace(message);
         }
 
         public override Severity SeverityLevel { get; }
