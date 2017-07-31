@@ -41,9 +41,9 @@ namespace Orleans.TestKit
             }
         }
 
-        internal Mock<T> AddServiceProbe<T>() where T : class
+        internal Mock<T> AddServiceProbe<T>(params object[] args) where T : class
         {
-            var mock = new Mock<T>();
+            var mock = new Mock<T>(_options.StrictServiceProbes ? MockBehavior.Strict : MockBehavior.Loose, args);
 
             _services.Add(typeof(T), mock);
 

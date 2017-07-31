@@ -189,8 +189,8 @@ namespace Orleans.TestKit
 
         #region Services
 
-        public Mock<T> AddServiceProbe<T>() where T : class
-            => _serviceProvider.AddServiceProbe<T>();
+        public Mock<T> AddServiceProbe<T>(params object[] args) where T : class
+            => _serviceProvider.AddServiceProbe<T>(args);
 
         #endregion
 
