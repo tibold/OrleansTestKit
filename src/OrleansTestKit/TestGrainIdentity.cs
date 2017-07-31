@@ -17,14 +17,26 @@ namespace Orleans.TestKit
 
         private readonly KeyType _keyType;
 
-        public Guid PrimaryKey { get; }
+        private Guid primaryKey;
+        private long primaryKeyLong;
+        private string primaryKeyString;
+        private string primaryKeyExtension;
 
-        public long PrimaryKeyLong { get; }
+        public Guid PrimaryKey
+            => _keyType == KeyType.Guid
+            ? primaryKey
+            : throw new InvalidOperationException("This property cannot be used if the grain uses the primary key extension feature.");
 
-        public string PrimaryKeyString { get; }
+        public long PrimaryKeyLong
+            => _keyType == KeyType.Long
+            ? primaryKeyLong
+            : throw new InvalidOperationException("This property cannot be used if the grain uses the primary key extension feature.");
 
-        public string KeyExtension { get; }
-
+        public string PrimaryKeyString
+            => _keyType == KeyType.String
+            ? primaryKeyString
+            : throw new InvalidOperationException("This property cannot be used if the grain uses the primary key extension feature.");
+        
         public string IdentityString
         {
             get
@@ -36,7 +48,7 @@ namespace Orleans.TestKit
                     case KeyType.Guid:
                         return PrimaryKey.ToString();
                     case KeyType.GuidCompound:
-                        return $"{PrimaryKey.ToString()}@{KeyExtension}";
+                        return $"{primaryKey}@{primaryKeyExtension}";
                     case KeyType.Long:
                         return PrimaryKeyLong.ToString();
                     default:
@@ -51,26 +63,26 @@ namespace Orleans.TestKit
 
         public TestGrainIdentity(Guid id)
         {
-            PrimaryKey = id;
+            primaryKey = id;
             _keyType = KeyType.Guid;
         }
 
         public TestGrainIdentity(Guid id, string extension)
         {
-            PrimaryKey = id;
-            KeyExtension = extension;
+            primaryKey = id;
+            primaryKeyExtension = extension;
             _keyType = KeyType.GuidCompound;
         }
 
         public TestGrainIdentity(long id)
         {
-            PrimaryKeyLong = id;
+            primaryKeyLong = id;
             _keyType = KeyType.Long;
         }
 
         public TestGrainIdentity(string id)
         {
-            PrimaryKeyString = id;
+            primaryKeyString = id;
             _keyType = KeyType.String;
         }
 
@@ -87,8 +99,8 @@ namespace Orleans.TestKit
                 throw new InvalidOperationException();
             }
 
-            keyExt = KeyExtension;
-            return PrimaryKey;
+            keyExt = primaryKeyExtension;
+            return primaryKey;
         }
 
         public uint GetUniformHashCode() 
