@@ -67,17 +67,17 @@ namespace Orleans.TestKit.Streams
 
             _mockStream.Object.OnNextAsync(item, token);
 
-            return Task.WhenAll(_observers.Select(o => o.OnNextAsync(item, token)));
+            return Task.WhenAll(_observers.ToArray().Select(o => o.OnNextAsync(item, token)));
         }
 
         public Task OnCompletedAsync()
         {
-            return Task.WhenAll(_observers.Select(o => o.OnCompletedAsync()));
+            return Task.WhenAll(_observers.ToArray().Select(o => o.OnCompletedAsync()));
         }
 
         public Task OnErrorAsync(Exception ex)
         {
-            return Task.WhenAll(_observers.Select(o => o.OnErrorAsync(ex)));
+            return Task.WhenAll(_observers.ToArray().Select(o => o.OnErrorAsync(ex)));
         }
 
         public Task OnNextBatchAsync(IEnumerable<T> batch, StreamSequenceToken token = null)
