@@ -36,19 +36,19 @@ namespace Orleans.TestKit.Streams
             else
                 stream = AddStreamProbe<T>(streamId, streamNamespace);
 
-            return (IAsyncStream<T>) stream;
+            return (IAsyncStream<T>)stream;
         }
 
         public Task Init(string name, IProviderRuntime providerRuntime, IProviderConfiguration config)
         {
             Name = name;
 
-            return TaskDone.Done;
+            return Task.CompletedTask;
         }
 
-        public Task Close() => TaskDone.Done;
+        public Task Close() => Task.CompletedTask;
 
-        public Task Start() => TaskDone.Done;
+        public Task Start() => Task.CompletedTask;
 
         public TestStream<T> AddStreamProbe<T>(Guid streamId, string streamNamespace)
         {
